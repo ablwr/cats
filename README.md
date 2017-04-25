@@ -8,7 +8,7 @@ To install:
 - Run `make` (this kicks off `cats.c` and builds the file)
 - Run `./cats` to test it out!
 
-If you LOVE IT, you can add the command to your global bash settings by running `cp cats /usr/local/bin/cats`.
+If you LOVE IT, you can add the command to your global bash settings by running `cp cats /usr/local/bin/cats` (or wherever your $PATH may be).
 
 ```
                ________________                 
