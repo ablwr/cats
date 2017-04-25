@@ -1,0 +1,26 @@
+# cats cats cats!
+
+Based on [sl]() and [gti](), for when you mistype `cat` in bash!
+
+To install:
+
+- `git clone` this directory and `cd` into the folder.
+- Run `make` (this kicks off `cats.c` and builds the file)
+- Run `./cats` to test it out!
+
+If you LOVE IT, you can add the command to your global bash settings by running `cp cats /usr/local/bin/cats`.
+
+```
+               ________________                 
+         _|::||                |                
+      _|::|   |  I Love Cats!  |                
+     |::|     |________________|                
+                               |        /\**/\
+                               |       _( >_> )
+                               |  (_//   u--u)  
+                                 \==(  ___||)   
+                             ,dP /b/=( /P /b\\  
+                             |8 || 8\\=== || 8  
+                             'b,  ,P  'b,  ,P   
+
+```
