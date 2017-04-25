@@ -19,6 +19,8 @@
     /* usleep() doesn't exist on MSVC, instead use Sleep() from Win32 API */
 #    define usleep(a) Sleep((a) / 1000)
 
+#    define execv(a, b) do { i = _spawnv(_P_WAIT, (a), (b)); if (i != -1) return i; } while(0)
+#    define execvp(a, b) do { i = _spawnvp(_P_WAIT, (a), (b)); if (i != -1) return i; } while(0)
 
 #else
 #    include <unistd.h>
@@ -49,8 +51,6 @@ void clear_cat(int x);
 
 typedef void (*draw_fn_t) (int x);
 void draw_std(int x);
-void draw_push(int x);
-void draw_pull(int x);
 draw_fn_t select_command(int argc, char **argv);
 
 FILE *TERM_FH;
@@ -74,19 +74,18 @@ int main(int argc, char **argv)
 
     draw_fn = select_command(argc, argv);
     init_space();
-    for (i = -35; i < TERM_WIDTH; i++) {
+    for (i = -20; i < TERM_WIDTH; i++) {
         draw_fn(i);
         clear_cat(i);
     }
     move_to_top();
     fflush(TERM_FH);
-
-    return 1;
 }
 
 draw_fn_t select_command(int argc, char **argv)
 {
   int i;
+
   for (i = 1; i < argc; i++) {
       if (argv[i][0] == '-')
           continue;
@@ -129,7 +128,7 @@ int term_width(void)
 void move_to_top(void)
 {
 #ifndef WIN32
-    fprintf(TERM_FH, "\033[7A");
+    fprintf(TERM_FH, "\033[11A");
 #else
     CONSOLE_SCREEN_BUFFER_INFO ci;
     GetConsoleScreenBufferInfo(WIN_CONSOLE, &ci);
@@ -169,12 +168,13 @@ void line_at(int start_x, const char *s)
      */
     if (x < TERM_WIDTH)
 #endif
-    fputc('\n\n', TERM_FH);
+    fputc('\n', TERM_FH);
     fflush(TERM_FH);
 }
 
 void draw_std(int x)
 {
+    /* *INDENT-OFF* */
     move_to_top();
     line_at(x, "               ________________                 ");
     line_at(x, "         _|::||                |                ");
@@ -184,26 +184,22 @@ void draw_std(int x)
     line_at(x, "                               |       _( >_> ) ");
     line_at(x, "                               |  (_//   u--u)  ");
     line_at(x, "                                 \\==(  ___||)   ");
-    if (x % 2) {    
+    if (x % 2) {
     line_at(x, "                             ,dP /b/=( /P /b\\  ");
     line_at(x, "                             |8 || 8\\=== || 8  ");
     line_at(x, "                             'b,  ,P  'b,  ,P   ");
-    } else {    
+    } else {
     line_at(x, "                             ,dP /b/=( /P /b\\  ");
     line_at(x, "                             |8 == 8\\=== == 8  ");
     line_at(x, "                             'b,  ,P  'b,  ,P   ");
     }
+    /* *INDENT-ON* */
     usleep(FRAME_TIME);
 }
 
 void clear_cat(int x)
 {
     move_to_top();
-    line_at(x, "  ");
-    line_at(x, "  ");
-    line_at(x, "  ");
-    line_at(x, "  ");
-    line_at(x, "  ");
     line_at(x, "  ");
     line_at(x, "  ");
     line_at(x, "  ");
