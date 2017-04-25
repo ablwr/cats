@@ -1,6 +1,6 @@
 # cats cats cats!
 
-Based on [sl]() and [gti](), for when you mistype `cat` in bash!
+Based on [sl](https://github.com/mtoyoda/sl) and [gti](https://github.com/rwos/gti), for when you mistype `cat` in bash!
 
 To install:
 
